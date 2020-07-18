@@ -6,13 +6,70 @@ namespace controleContas
 {
     class Agencia
     {
-        public int Numero { get; set; }
-        public string Cep { get; set; }
-        public string Telefone { get; set; }
+        private int _numero;
+        private string _nome;
+        private string _telefone;
+        private string _cep;
+        public int Numero {
+            get
+            {
+                return _numero;
+            }
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Numero de agência Inválido!");
+                else
+                    _numero = value;
 
-        public string NomeBanco { get; set; }
+            }
+        }
+        public string Cep {
+            get
+            {
+                return _cep;
+            }
+            set
+            {
+                if (value.Length <= 0)
+                    throw new ArgumentException("Numero do cep Inválido!");
+                else
+                    _cep = value;
 
-        public List<Conta> Contas { get; set; }
+            }
+        }
+        public string Telefone {
+            get
+            {
+                return _telefone;
+            }
+            set
+            {
+                if (value.Length <= 0)
+                    throw new ArgumentException("Numero de telefone Inválido!");
+                else
+                    _telefone = value;
+
+            }
+        }
+
+        public string NomeBanco
+        {
+            get
+            {
+                return _nome;
+            }
+            set
+            {
+                if (value.Length <= 0)
+                    throw new ArgumentException("Nome de banco Inválido para agência!");
+                else
+                    _nome = value;
+
+            }
+        }
+
+        public List<Conta> Contas { get; private set; }
 
         public Agencia()
         {

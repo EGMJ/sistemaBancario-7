@@ -8,24 +8,32 @@ namespace controleContas
         static void Main(string[] args)
         {
             Banco banco = new Banco();
-            banco.Nome = "Itau";
-            banco.Numero = 183;
-
             Agencia agencia = new Agencia();
-            agencia.Cep = "27140367";
-            agencia.Numero = 0003;
-            agencia.Telefone = "4002-8922";
-            agencia.NomeBanco = banco.Nome;
-            banco.Agencias.Add(agencia);
-
-
             Cliente cliente2 = new Cliente();
             Cliente cliente3 = new Cliente();
+
+            try
+            {
+                banco.Nome = "Itau";
+                banco.Numero = 183;
+
+                agencia.Cep = "27140367";
+                agencia.Numero = 0003;
+                agencia.Telefone = "4002-8922";
+                agencia.NomeBanco = banco.Nome;
+                banco.Agencias.Add(agencia);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Environment.Exit(1);
+            }
 
             Conta conta2 = new Conta(199810, 28m, cliente2, agencia.Numero);
             agencia.Contas.Add(conta2);
             Conta conta3 = new Conta(400289, 22m, cliente3, agencia.Numero);
             agencia.Contas.Add(conta3);
+
             try
             {
                 Console.WriteLine("informe seu nome: ");
@@ -116,26 +124,6 @@ namespace controleContas
                 }
             }
 
-
-           /* Console.WriteLine($"A conta {conta1.Numero} pertence ao cliente {conta1.Titular.Nome}");
-
-            decimal comparador = conta1.Saldo - conta2.Saldo;
-
-            if (comparador > 0)
-            {
-                Console.WriteLine($"A conta que possui maior saldo é a conta de número {conta1.Numero}");
-            }
-            else if (comparador < 0)
-            {
-                Console.WriteLine($"A conta que possui maior saldo é a conta de número {conta2.Numero}");
-            }
-            else if (comparador == 0)
-            {
-                Console.WriteLine($"As contas de número {conta2.Numero}, {conta1.Numero} possuem o mesmo saldo!");
-            }
-
-            Console.WriteLine($"O saldo inicial geral é de: {Conta.SaldoInicialGeral}"); */
-
-          }
+        }
     }
 }

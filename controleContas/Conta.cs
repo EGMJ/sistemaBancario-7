@@ -6,6 +6,7 @@ namespace controleContas
 {
     class Conta
     {
+        private int _agencia;
         public static decimal SaldoInicialGeral { get; private set; }
 
         public static decimal MaiorSaldoInicial { get; private set; }
@@ -15,7 +16,21 @@ namespace controleContas
         public long Numero { get; private set; }
         public decimal Saldo { get; private set; }
 
-        public int Agencia { get; set; }
+        public int Agencia
+        {
+            get
+            {
+                return _agencia;
+            }
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentException("Numero  de agencia Inválido para conta!");
+                else
+                    _agencia = value;
+
+            }
+        }
 
         public Cliente Titular { get; set; }
 
@@ -67,25 +82,34 @@ namespace controleContas
 
         public void Transferir(decimal saldoConta1, decimal saldoConta2, decimal valor, int loopin, out int loopout)
         {
-            if (saldoConta1 >= valor || loopin != 0)
+            if (valor > 0)
             {
-                if (loopin == 0)
+                if (saldoConta1 >= valor || loopin != 0)
                 {
-                    saldoConta1 -= valor;
-                    SubstituirSaldo(saldoConta1);
-                }
+                    if (loopin == 0)
+                    {
+                        saldoConta1 -= valor;
+                        SubstituirSaldo(saldoConta1);
+                    }
 
-                if (loopin != 0)
-                {
+                    if (loopin != 0)
+                    {
 
-                    saldoConta2 += valor;
-                    SubstituirSaldo(saldoConta2);
+                        saldoConta2 += valor;
+                        SubstituirSaldo(saldoConta2);
+                    }
                 }
+                else
+                    throw new ArgumentException($"Saldo insuficiente. Seu saldo: {Saldo}");
+
+                loopin += 1;
+                loopout = loopin;
             }
             else
-                throw new ArgumentException($"Saldo insuficiente. Seu saldo: {Saldo}");
-            loopin += 1;
-            loopout = loopin;
+            {
+                throw new ArgumentException("Não é possível realizar transferência com valor inferior a 1");
+                loopout = 2;
+            }
         }
 
         public decimal SubstituirSaldo(decimal valor)
